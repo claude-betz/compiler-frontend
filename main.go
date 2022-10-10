@@ -14,7 +14,7 @@ import (
 )
 
 const (
-	program = " { for ( 4 + 5 ) { int x; } } "
+	program = " { if ( 4 + 5 == 10 ) { int x = 5; } }"
 )
 
 func main() {

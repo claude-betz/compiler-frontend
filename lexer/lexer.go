@@ -238,6 +238,7 @@ func (l *Lexer) readCompositeOperators() Token {
 	case '|':
 		l.advancePeek()
 		if l.peek == '|' {
+			l.advancePeek()
 			return l.get(OR.String())
 		} else {
 			return NewChar(OR, '|')
@@ -245,6 +246,7 @@ func (l *Lexer) readCompositeOperators() Token {
 	case '&':
 		l.advancePeek()
 		if l.peek == '&' {
+			l.advancePeek()
 			return l.get("&&")
 		} else {
 			return NewChar(AND, '&')
@@ -252,6 +254,7 @@ func (l *Lexer) readCompositeOperators() Token {
 	case '=':
 		l.advancePeek()
 		if l.peek == '=' {
+			l.advancePeek()
 			return l.get(EQUAL_TO.String())
 		} else {
 			return l.get(ASSIGN.String())
@@ -259,6 +262,7 @@ func (l *Lexer) readCompositeOperators() Token {
 	case '!':
 		l.advancePeek()
 		if l.peek == '=' {
+			l.advancePeek()
 			return l.get(NOT_EQUAL_TO.String())
 		} else {
 			return l.get(NOT.String())
@@ -266,6 +270,7 @@ func (l *Lexer) readCompositeOperators() Token {
 	case '<':
 		l.advancePeek()
 		if l.peek == '=' {
+			l.advancePeek()
 			return l.get(LESS_THAN_EQUAL_TO.String())
 		} else {
 			return l.get(LESS_THAN.String())
@@ -273,6 +278,7 @@ func (l *Lexer) readCompositeOperators() Token {
 	case '>':
 		l.advancePeek()
 		if l.peek == '=' {
+			l.advancePeek()
 			return l.get(GREATER_THAN_EQUAL_TO.String())
 		} else {
 			return l.get(GREATER_THAN.String())
