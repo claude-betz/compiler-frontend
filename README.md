@@ -10,6 +10,11 @@ block    -> { decls stmts }
 decls    -> decls decl
          |  ϵ
 
+decl     -> type id
+
+type     -> type [ num ] 
+         |  basic
+
 stmts    -> stmts stmt
          |  ϵ
 
@@ -20,7 +25,7 @@ stmt     -> expr ;
          |  do stmt while ( expr ) ;
          |  block
 
-expr     -> loc = bool
+expr     -> loc = bool;
 
 loc      -> loc[ bool ]
          |  id
@@ -48,8 +53,12 @@ expr     -> expr + term
          |  expr - term
          |  term
 
-term     -> term * factor
-         |  term / factor
+term     -> term * unary
+         |  term / unary
+         |  unary
+
+unary    -> ! unary
+         |  - unary
          |  factor
 
 factor   -> ( expr )
