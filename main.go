@@ -10,11 +10,12 @@ import (
 	"bufio"
 	"bytes"
 	"compiler-frontend/lexer"
+	"compiler-frontend/parser"
 	"fmt"
 )
 
 const (
-	program = " { if ( 4 + 5 == 10 ) { int x = 5; } }"
+	program = " { if ( 4 + 5 == 10 ) { int x; x = 5; } }"
 )
 
 func main() {
@@ -27,8 +28,11 @@ func main() {
 		fmt.Println("error initialising lexer")
 	}
 
-	for i := 1; i <= 13; i++ {
-		token := lex.Scan()
-		fmt.Printf("tag: %s, value: %s\n", token.Tag().String(), token.Value())
-	}
+	// for i := 1; i <= 13; i++ {
+	// 	token := lex.Scan()
+	// 	fmt.Printf("tag: %s, value: %s\n", token.Tag().String(), token.Value())
+	// }
+
+	parser := parser.NewParser(lex)
+	parser.Program()
 }

@@ -61,6 +61,9 @@ const (
 	// basic values
 	TRUE
 	FALSE
+
+	// character
+	CHAR
 )
 
 func (t Tag) String() string {
@@ -112,7 +115,10 @@ func (t Tag) String() string {
 	case MINUS:
 		return "-"
 	case PRIMITIVE:
-		return "basic"
+		return "primitive"
+	case CHAR:
+		return "character"
 	}
+
 	return "undefined"
 }

@@ -46,36 +46,6 @@ func NewLexer(source io.RuneScanner) (*Lexer, error) {
 	l.put(NewWord(DO, DO.String()))
 	l.put(NewWord(BREAK, BREAK.String()))
 
-	// expressions
-	// assignment
-	l.put(NewWord(ASSIGN, ASSIGN.String()))
-
-	// boolean ops
-	l.put(NewWord(OR, OR.String()))
-	l.put(NewWord(AND, AND.String()))
-
-	// equality
-	l.put(NewWord(EQUAL_TO, EQUAL_TO.String()))
-	l.put(NewWord(NOT_EQUAL_TO, NOT_EQUAL_TO.String()))
-
-	// relational
-	l.put(NewWord(LESS_THAN, LESS_THAN.String()))
-	l.put(NewWord(LESS_THAN_EQUAL_TO, LESS_THAN_EQUAL_TO.String()))
-	l.put(NewWord(GREATER_THAN, GREATER_THAN.String()))
-	l.put(NewWord(GREATER_THAN_EQUAL_TO, GREATER_THAN_EQUAL_TO.String()))
-
-	// expr
-	l.put(NewWord(ADD, ADD.String()))
-	l.put(NewWord(SUBTRACT, ADD.String()))
-
-	// terms
-	l.put(NewWord(MULTIPLY, MULTIPLY.String()))
-	l.put(NewWord(DIVIDE, DIVIDE.String()))
-
-	// unary
-	l.put(NewWord(NOT, NOT.String()))
-	l.put(NewWord(MINUS, MINUS.String()))
-
 	// types
 	l.put(NewType(PRIMITIVE, "int"))
 	l.put(NewType(PRIMITIVE, "bool"))
@@ -113,7 +83,7 @@ func (l *Lexer) advancePeek() error {
 func (l *Lexer) Scan() Token {
 	l.skipWhitespace()
 
-	token := l.readCompositeOperators()
+	token := l.readOperators()
 	if token != nil {
 		return token
 	}
@@ -232,64 +202,78 @@ func (l *Lexer) readWord() Token {
 	}
 }
 
-func (l *Lexer) readCompositeOperators() Token {
+func (l *Lexer) readOperators() Token {
 
 	switch l.peek {
 	case '|':
 		l.advancePeek()
 		if l.peek == '|' {
 			l.advancePeek()
-			return l.get(OR.String())
+			return or
 		} else {
-			return NewChar(OR, '|')
+			// not supported
+			return nil
 		}
 	case '&':
 		l.advancePeek()
 		if l.peek == '&' {
 			l.advancePeek()
-			return l.get("&&")
+			return and
 		} else {
-			return NewChar(AND, '&')
+			// not supported
+			return nil
 		}
 	case '=':
 		l.advancePeek()
 		if l.peek == '=' {
 			l.advancePeek()
-			return l.get(EQUAL_TO.String())
+			return eq
 		} else {
-			return l.get(ASSIGN.String())
+			return assign
 		}
 	case '!':
 		l.advancePeek()
 		if l.peek == '=' {
 			l.advancePeek()
-			return l.get(NOT_EQUAL_TO.String())
+			return ne
 		} else {
-			return l.get(NOT.String())
+			return not
 		}
 	case '<':
 		l.advancePeek()
 		if l.peek == '=' {
 			l.advancePeek()
-			return l.get(LESS_THAN_EQUAL_TO.String())
+			return le
 		} else {
-			return l.get(LESS_THAN.String())
+			return lt
 		}
 	case '>':
 		l.advancePeek()
 		if l.peek == '=' {
 			l.advancePeek()
-			return l.get(GREATER_THAN_EQUAL_TO.String())
+			return ge
 		} else {
-			return l.get(GREATER_THAN.String())
+			return gt
 		}
+	case '+':
+		l.advancePeek()
+		return add
+	case '-':
+		l.advancePeek()
+		return diff
+	case '*':
+		l.advancePeek()
+		return mul
+	case '/':
+		l.advancePeek()
+		return div
 	default:
 		return nil
 	}
 }
 
 func (l *Lexer) readCharacters() Token {
-	char := NewChar(ID, l.peek)
+	char := NewChar(CHAR, l.peek)
 	l.peek = whitespace
 	return char
 }

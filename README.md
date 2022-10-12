@@ -18,26 +18,21 @@ type     -> type [ num ]
 stmts    -> stmts stmt
          |  ϵ
 
-stmt     -> expr ;
+stmt     -> loc = bool;
          |  if ( expr ) stmt
          |  if ( expr ) stmt else stmt
          |  while ( expr ) stmt
          |  do stmt while ( expr ) ;
          |  block
 
-expr     -> loc = bool;
-
 loc      -> loc[ bool ]
          |  id
-
-expr     -> loc = bool
-         |  bool
 
 bool     -> bool || join 
          | join
 
 join     -> join && equality
-         | equality
+         |  equality
 
 equality -> equality == rel
          |  equality != rel
