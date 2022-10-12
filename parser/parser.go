@@ -71,18 +71,29 @@ func (p *Parser) decls() {
 }
 
 func (p *Parser) decl() {
-	p.matchTokenTag(lexer.PRIMITIVE) // match TYPE
-	p.matchTokenTag(lexer.ID)        // match ID
-	p.matchCharacter(";")
+	if p.lookahead.Tag() == lexer.PRIMITIVE {
+		p.matchTokenTag(lexer.PRIMITIVE) // match TYPE
+		p.matchTokenTag(lexer.ID)        // match ID
+		p.matchCharacter(";")
+	}
 }
 
 func (p *Parser) stmts() {
+	if p.lookahead.Value() == "}" {
+
+		return
+	}
 	p.stmt()
 	p.stmts()
 }
 
 func (p *Parser) stmt() {
 	switch p.lookahead.Tag() {
+	case (lexer.ID):
+		p.loc()
+		p.matchCharacter("=")
+		p.bool()
+		p.matchCharacter(";")
 	case (lexer.IF):
 		p.matchTokenTag(lexer.IF)
 		p.matchCharacter("(")
