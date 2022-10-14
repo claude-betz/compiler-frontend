@@ -11,11 +11,11 @@ import (
 
 type Expr struct {
 	lexerLine int
-	op        lexer.Token
-	typ       lexer.Type
+	op        *lexer.Token
+	typ       *lexer.Type
 }
 
-func NewExpr(t lexer.Token, typ lexer.Type) Expr {
+func NewExpr(t *lexer.Token, typ *lexer.Type) Expr {
 	return Expr{
 		lexerLine: lexer.LexerLine, // current line of lexical analyser
 		op:        t,
@@ -54,5 +54,5 @@ func (e Expr) emitjumps(testVar string, t, f int) {
 }
 
 func (e Expr) toString() string {
-	return e.op.String()
+	return (*e.op).String()
 }

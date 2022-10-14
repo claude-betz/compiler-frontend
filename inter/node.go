@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	labels = 0
+	labels = 0 // global variable for labels used in jumps
 )
 
 type Node interface {

@@ -14,6 +14,10 @@ import (
 	"unicode"
 )
 
+var (
+	LexerLine = 0
+)
+
 const (
 	// valid characters
 	newline    rune = 0x0A
