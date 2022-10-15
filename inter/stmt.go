@@ -5,8 +5,8 @@
 package inter
 
 var (
-	Null      = NewStmt() // represents an empty sequence of statements
-	Enclosing = Null      // used for break statements
+	NullStmt  = NewStmt() // represents an empty sequence of statements
+	Enclosing = NullStmt  // used for break statements
 )
 
 type Stmt struct {
