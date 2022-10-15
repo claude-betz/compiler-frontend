@@ -21,18 +21,18 @@ func NewOr(tok lexer.Token, expr1, expr2 Expr) Or {
 	}
 }
 
-func (o Or) jumping(trueLine, falseLine int) {
+func (o Or) jumping(trueLabel, falseLabel int) {
 	label := 0
-	if trueLine != 0 {
+	if trueLabel != 0 {
 		label = 0
 	} else {
 		label = newLabel()
 	}
 
 	o.expr1.jumping(label, 0)
-	o.expr2.jumping(trueLine, falseLine)
+	o.expr2.jumping(trueLabel, falseLabel)
 
-	if trueLine == 0 {
+	if trueLabel == 0 {
 		emitLabel(label)
 	}
 }

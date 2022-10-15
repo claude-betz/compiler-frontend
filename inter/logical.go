@@ -32,16 +32,16 @@ func NewLogical(tok lexer.Token, expr1, expr2 Expr) Logical {
 }
 
 func (l Logical) gen() Temp {
-	falseLine := newLabel()
-	after := newLabel()
+	falseExitLabel := newLabel()
+	afterLabel := newLabel()
 	temp := NewTemp(l.typ)
 
-	l.jumping(0, falseLine)
+	l.jumping(0, falseExitLabel)
 	emit(fmt.Sprintf("%s = true", temp.toString()))
-	emit(fmt.Sprintf("goto L%d", after))
-	emitLabel(falseLine)
+	emit(fmt.Sprintf("goto L%d", afterLabel))
+	emitLabel(falseExitLabel)
 	emit(fmt.Sprintf("%s = false", temp.toString()))
-	emitLabel(after)
+	emitLabel(afterLabel)
 	return temp
 }
 
