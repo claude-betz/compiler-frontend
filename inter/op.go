@@ -15,7 +15,7 @@ type Op struct {
 	Expr
 }
 
-func NewOp(t *lexer.Token, typ *lexer.Type) Op {
+func NewOp(t lexer.Token, typ lexer.Type) Op {
 	return Op{
 		NewExpr(t, typ),
 	}

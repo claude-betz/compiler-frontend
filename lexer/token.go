@@ -7,6 +7,7 @@
 package lexer
 
 import (
+	"errors"
 	"strconv"
 )
 
@@ -113,6 +114,7 @@ var (
 	Float = NewType(PRIMITIVE, "float", 8)
 	Char  = NewType(PRIMITIVE, "char", 1)
 	Bool  = NewType(PRIMITIVE, "bool", 1)
+	Null  = NewType(Undefined, "undefined", 0)
 )
 
 func NewType(tag Tag, value string, width int) Type {
@@ -142,15 +144,15 @@ func Numeric(t Type) bool {
 	}
 }
 
-func Max(t1, t2 Type) *Type {
+func Max(t1, t2 Type) (Type, error) {
 	if !Numeric(t1) || !Numeric(t2) {
-		return nil
+		return t2, errors.New("can't convert")
 	} else if t1 == Float || t2 == Float {
-		return &Float
+		return Float, nil
 	} else if t1 == Int || t2 == Int {
-		return &Int
+		return Int, nil
 	} else {
-		return &Char
+		return Char, nil
 	}
 }
 

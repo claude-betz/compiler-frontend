@@ -17,7 +17,7 @@ type If struct {
 
 func NewIf(expr Expr, stmt Stmt) If {
 	// type check
-	if *expr.typ != lexer.Bool {
+	if expr.typ != lexer.Bool {
 		// error
 		fmt.Println("If statement requires boolean")
 	}

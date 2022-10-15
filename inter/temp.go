@@ -18,7 +18,7 @@ type Temp struct {
 	Expr
 }
 
-func NewTemp(t *lexer.Type) Temp {
+func NewTemp(t lexer.Type) Temp {
 	// increase global count
 	count++
 	number := count

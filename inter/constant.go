@@ -20,14 +20,14 @@ type Constant struct {
 
 func NewConstant(tok lexer.Token, typ lexer.Type) Constant {
 	return Constant{
-		Expr: NewExpr(&tok, &typ),
+		Expr: NewExpr(tok, typ),
 	}
 }
 
 func NewIntConstant(i int) Constant {
 	num := lexer.NewNum(lexer.NUM, i)
 	return Constant{
-		Expr: NewExpr(num, &lexer.Int),
+		Expr: NewExpr(num, lexer.Int),
 	}
 }
 

@@ -18,16 +18,16 @@ type Set struct {
 	expr Expr
 }
 
-func NewSet(id *Id, expr *Expr) Set {
+func NewSet(id Id, expr Expr) Set {
 	// check types
-	_, err := checkTypes(*id.typ, *expr.typ)
+	_, err := checkTypes(id.typ, expr.typ)
 	if err != nil {
 		fmt.Println("[error] set.go - type error")
 	}
 
 	return Set{
-		id:   *id,
-		expr: *expr,
+		id:   id,
+		expr: expr,
 	}
 }
 

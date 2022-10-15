@@ -13,7 +13,7 @@ type Id struct {
 	Expr
 }
 
-func NewId(w *lexer.Token, t *lexer.Type, o int) Id {
+func NewId(w lexer.Token, t lexer.Type, o int) Id {
 	return Id{
 		offset: o,
 		Expr:   NewExpr(w, t),

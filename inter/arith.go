@@ -13,12 +13,12 @@ type Arith struct {
 	Op
 }
 
-func NewArith(tok *lexer.Token, e1, e2 Expr) Arith {
+func NewArith(tok lexer.Token, e1, e2 Expr) Arith {
 	// create arith object
 	arith := Arith{
 		expr1: e1,
 		expr2: e2,
-		Op:    NewOp(tok, nil),
+		Op:    NewOp(tok, lexer.Null),
 	}
 
 	// do type coercions
