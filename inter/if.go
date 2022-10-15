@@ -29,9 +29,9 @@ func NewIf(expr Expr, stmt Stmt) If {
 }
 
 func (i If) gen(before, after int) {
-	label := newLabel()      // label for code of stmt
 	i.expr.jumping(0, after) // fall through on true, goto after on false
 
+	label := newLabel()      // label for code of stmt
 	emitLabel(label)         // becomes the before for the generation of stmt
 	i.stmt.gen(label, after) // in the if fall through
 }

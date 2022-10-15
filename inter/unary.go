@@ -12,7 +12,7 @@ import (
 )
 
 type Unary struct {
-	e Expr
+	expr Expr
 	Op
 }
 
@@ -24,17 +24,17 @@ func NewUnary(tok *lexer.Token, expr *Expr) Unary {
 	}
 
 	return Unary{
-		e:  *expr,
-		Op: NewOp(tok, typ),
+		expr: *expr,
+		Op:   NewOp(tok, typ),
 	}
 }
 
 func (u Unary) gen() Unary {
-	reduced := u.e.reduce()
+	reduced := u.expr.reduce()
 	return NewUnary(u.operator, &reduced)
 }
 
 func (u Unary) toString() string {
 	op := (*u.operator).String()
-	return fmt.Sprintf("%s %s", op, u.e.toString())
+	return fmt.Sprintf("%s %s", op, u.expr.toString())
 }
