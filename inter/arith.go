@@ -19,7 +19,7 @@ type Arith struct {
 func NewArith(tok lexer.Token, expr1, expr2 Expr) Arith {
 	// do type coercions
 	typ := lexer.Max(expr1.typ, expr2.typ)
-	if typ != lexer.NullType {
+	if typ == lexer.NullType {
 		// error
 	}
 
