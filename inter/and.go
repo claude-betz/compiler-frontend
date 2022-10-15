@@ -9,9 +9,6 @@ package inter
 import "compiler-frontend/lexer"
 
 type And struct {
-	tok   lexer.Token
-	expr1 Expr
-	expr2 Expr
 	Logical
 }
 
