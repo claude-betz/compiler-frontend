@@ -18,8 +18,8 @@ type Unary struct {
 
 func NewUnary(tok lexer.Token, expr Expr) Unary {
 	// do type coersions
-	typ, err := lexer.Max(lexer.Int, expr.typ)
-	if err == nil {
+	typ := lexer.Max(lexer.Int, expr.typ)
+	if typ == lexer.NullType {
 		// error
 	}
 

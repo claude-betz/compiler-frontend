@@ -6,25 +6,35 @@
 
 package inter
 
-import "compiler-frontend/lexer"
+import (
+	"compiler-frontend/lexer"
+	"fmt"
+)
 
 type Arith struct {
 	expr1, expr2 Expr
 	Op
 }
 
-func NewArith(tok lexer.Token, e1, e2 Expr) Arith {
-	// create arith object
-	arith := Arith{
-		expr1: e1,
-		expr2: e2,
-		Op:    NewOp(tok, lexer.NullType),
+func NewArith(tok lexer.Token, expr1, expr2 Expr) Arith {
+	// do type coercions
+	typ := lexer.Max(expr1.typ, expr2.typ)
+	if typ != lexer.NullType {
+		// error
 	}
 
-	// do type coercions
+	// create arith object
+	return Arith{
+		expr1: expr1,
+		expr2: expr2,
+		Op:    NewOp(tok, typ),
+	}
+}
 
-	// set type on arith
+func (a *Arith) gen() Arith {
+	return NewArith(a.operator, a.expr1.reduce(), a.expr2.reduce())
+}
 
-	// return
-	return arith
+func (a *Arith) toString() string {
+	return fmt.Sprintf("%s %s %s", a.expr1.toString(), a.operator.String(), a.expr2.toString())
 }
