@@ -51,8 +51,8 @@ func NewLexer(source io.RuneScanner) (*Lexer, error) {
 	l.put(NewWord(BREAK, BREAK.String()))
 
 	// values
-	l.put(NewWord(TRUE, "true"))
-	l.put(NewWord(FALSE, "false"))
+	l.put(True)
+	l.put(False)
 
 	return l, nil
 }

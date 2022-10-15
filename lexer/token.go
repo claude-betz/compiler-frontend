@@ -55,6 +55,11 @@ type Word struct {
 	lexeme string
 }
 
+var (
+	True  = NewWord(TRUE, "true")
+	False = NewWord(FALSE, "false")
+)
+
 func NewWord(tag Tag, lexeme string) Word {
 	return Word{
 		tag:    tag,
