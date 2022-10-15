@@ -7,7 +7,6 @@
 package lexer
 
 import (
-	"errors"
 	"strconv"
 )
 
@@ -144,15 +143,15 @@ func Numeric(t Type) bool {
 	}
 }
 
-func Max(t1, t2 Type) (Type, error) {
+func Max(t1, t2 Type) Type {
 	if !Numeric(t1) || !Numeric(t2) {
-		return t2, errors.New("can't convert")
+		return NullType
 	} else if t1 == Float || t2 == Float {
-		return Float, nil
+		return Float
 	} else if t1 == Int || t2 == Int {
-		return Int, nil
+		return Int
 	} else {
-		return Char, nil
+		return Char
 	}
 }
 
