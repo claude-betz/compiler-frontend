@@ -21,10 +21,9 @@ type Temp struct {
 func NewTemp(t lexer.Type) Temp {
 	// increase global count
 	count++
-	number := count
 
 	return Temp{
-		number: number,
+		number: count,
 		Expr:   NewExpr(nil, t),
 	}
 }
