@@ -50,15 +50,9 @@ func NewLexer(source io.RuneScanner) (*Lexer, error) {
 	l.put(NewWord(DO, DO.String()))
 	l.put(NewWord(BREAK, BREAK.String()))
 
-	// types
-	l.put(NewType(PRIMITIVE, "int"))
-	l.put(NewType(PRIMITIVE, "bool"))
-	l.put(NewType(PRIMITIVE, "char"))
-	l.put(NewType(PRIMITIVE, "float"))
-
 	// values
-	l.put(NewType(TRUE, "true"))
-	l.put(NewType(FALSE, "false"))
+	l.put(NewWord(TRUE, "true"))
+	l.put(NewWord(FALSE, "false"))
 
 	return l, nil
 }
@@ -277,7 +271,7 @@ func (l *Lexer) readOperators() Token {
 }
 
 func (l *Lexer) readCharacters() Token {
-	char := NewChar(CHAR, l.peek)
+	char := NewChar(CHARACTER, l.peek)
 	l.peek = whitespace
 	return char
 }

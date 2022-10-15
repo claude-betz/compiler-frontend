@@ -63,7 +63,7 @@ const (
 	FALSE
 
 	// character
-	CHAR
+	CHARACTER
 )
 
 func (t Tag) String() string {
@@ -116,7 +116,7 @@ func (t Tag) String() string {
 		return "-"
 	case PRIMITIVE:
 		return "primitive"
-	case CHAR:
+	case CHARACTER:
 		return "character"
 	}
 

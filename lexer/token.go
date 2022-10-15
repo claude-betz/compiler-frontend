@@ -99,14 +99,21 @@ func (n Num) String() string {
 }
 
 type Type struct {
-	tag   Tag
-	value string
+	width int // width in words
+	Word
 }
 
-func NewType(tag Tag, value string) Type {
+var (
+	Int   = NewType(PRIMITIVE, "int", 4)
+	Float = NewType(PRIMITIVE, "float", 8)
+	Char  = NewType(PRIMITIVE, "char", 1)
+	Bool  = NewType(PRIMITIVE, "bool", 1)
+)
+
+func NewType(tag Tag, value string, width int) Type {
 	return Type{
-		tag:   tag,
-		value: value,
+		width: width,
+		Word:  NewWord(tag, value),
 	}
 }
 
@@ -115,33 +122,53 @@ func (t Type) Tag() Tag {
 }
 
 func (t Type) Value() string {
-	return t.value
+	return t.lexeme
 }
 
 func (t Type) String() string {
 	return "{" + t.Tag().String() + ":" + t.Value() + "}"
 }
 
-type Char struct {
+func Numeric(t Type) bool {
+	if t == Char || t == Int || t == Float {
+		return true
+	} else {
+		return false
+	}
+}
+
+func Max(t1, t2 Type) *Type {
+	if !Numeric(t1) || !Numeric(t2) {
+		return nil
+	} else if t1 == Float || t2 == Float {
+		return &Float
+	} else if t1 == Int || t2 == Int {
+		return &Int
+	} else {
+		return &Char
+	}
+}
+
+type Character struct {
 	tag   Tag
 	value rune
 }
 
-func NewChar(tag Tag, value rune) Char {
-	return Char{
+func NewChar(tag Tag, value rune) Character {
+	return Character{
 		tag:   tag,
 		value: value,
 	}
 }
 
-func (c Char) Tag() Tag {
+func (c Character) Tag() Tag {
 	return c.tag
 }
 
-func (c Char) Value() string {
+func (c Character) Value() string {
 	return string(c.value)
 }
 
-func (c Char) String() string {
+func (c Character) String() string {
 	return "{" + c.Tag().String() + ":" + c.Value() + "}"
 }
