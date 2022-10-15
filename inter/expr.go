@@ -23,10 +23,12 @@ func NewExpr(t lexer.Token, typ lexer.Type) Expr {
 	}
 }
 
+// return a term that can fit on the right hand side of a three-address instruction
 func (e Expr) gen() Expr {
 	return e
 }
 
+// "reduces" and expression down to a single address
 func (e Expr) reduce() Expr {
 	return e
 }
@@ -35,6 +37,7 @@ func (e Expr) jumping(trueLabel, falseLabel int) {
 	e.emitjumps(e.toString(), trueLabel, falseLabel)
 }
 
+// generate jumping code for boolean expressions
 func (e Expr) emitjumps(testVar string, trueLabel, falseLabel int) {
 	if trueLabel != 0 && falseLabel != 0 { // conditions for both ifTrue ifFalse
 		ifTrue := fmt.Sprintf("if %s goto L%d", testVar, trueLabel)
