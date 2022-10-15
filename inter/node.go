@@ -32,6 +32,6 @@ func emit(s string) {
 	fmt.Printf("\t%s\n", s)
 }
 
-func error(s string, line int) {
-	fmt.Printf("[ERROR] near line: %d: %s", line, s)
+func printError(s string, line int) {
+	fmt.Printf("[ERROR] near line: %d: %s\n", line, s)
 }

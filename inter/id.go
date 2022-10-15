@@ -10,12 +10,12 @@ import (
 
 type Id struct {
 	offset int
-	node   Node
+	Expr
 }
 
 func NewId(w *lexer.Token, t *lexer.Type, o int) Id {
 	return Id{
 		offset: o,
-		node:   NewExpr(w, t),
+		Expr:   NewExpr(w, t),
 	}
 }
