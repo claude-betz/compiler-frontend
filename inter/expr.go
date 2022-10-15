@@ -31,22 +31,22 @@ func (e Expr) reduce() Expr {
 	return e
 }
 
-func (e Expr) jumping(t, f int) {
-	e.emitjumps(e.toString(), t, f)
+func (e Expr) jumping(trueLine, falseLine int) {
+	e.emitjumps(e.toString(), trueLine, falseLine)
 }
 
-func (e Expr) emitjumps(testVar string, t, f int) {
-	if t != 0 && f != 0 { // conditions for both ifTrue ifFalse
-		ifTrue := fmt.Sprintf("if %s goto L%d", testVar, t)
-		ifFalse := fmt.Sprintf("goto L%d", f)
+func (e Expr) emitjumps(testVar string, trueLine, falseLine int) {
+	if trueLine != 0 && falseLine != 0 { // conditions for both ifTrue ifFalse
+		ifTrue := fmt.Sprintf("if %s goto L%d", testVar, trueLine)
+		ifFalse := fmt.Sprintf("goto L%d", falseLine)
 
 		emit(ifTrue)
 		emit(ifFalse)
-	} else if t != 0 { // if true
-		ifTrue := fmt.Sprintf("if %s goto L%d", testVar, t)
+	} else if trueLine != 0 { // if true
+		ifTrue := fmt.Sprintf("if %s goto L%d", testVar, trueLine)
 		emit(ifTrue)
-	} else if f != 0 { // if false
-		ifFalse := fmt.Sprintf("iffalse %s goto L%d", testVar, f)
+	} else if falseLine != 0 { // if false
+		ifFalse := fmt.Sprintf("iffalse %s goto L%d", testVar, falseLine)
 		emit(ifFalse)
 	} else {
 		// nothing

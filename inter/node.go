@@ -19,8 +19,9 @@ type Node interface {
 	gen() Expr
 }
 
-func newLabel() {
+func newLabel() int {
 	labels++
+	return labels
 }
 
 func emitLabel(i int) {
