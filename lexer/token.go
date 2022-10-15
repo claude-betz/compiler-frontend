@@ -110,11 +110,11 @@ type Type struct {
 }
 
 var (
-	Int   = NewType(PRIMITIVE, "int", 4)
-	Float = NewType(PRIMITIVE, "float", 8)
-	Char  = NewType(PRIMITIVE, "char", 1)
-	Bool  = NewType(PRIMITIVE, "bool", 1)
-	Null  = NewType(Undefined, "undefined", 0)
+	Int      = NewType(PRIMITIVE, "int", 4)
+	Float    = NewType(PRIMITIVE, "float", 8)
+	Char     = NewType(PRIMITIVE, "char", 1)
+	Bool     = NewType(PRIMITIVE, "bool", 1)
+	NullType = NewType(Undefined, "undefined", 0)
 )
 
 func NewType(tag Tag, value string, width int) Type {

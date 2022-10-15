@@ -18,7 +18,7 @@ func NewArith(tok lexer.Token, e1, e2 Expr) Arith {
 	arith := Arith{
 		expr1: e1,
 		expr2: e2,
-		Op:    NewOp(tok, lexer.Null),
+		Op:    NewOp(tok, lexer.NullType),
 	}
 
 	// do type coercions
