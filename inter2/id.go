@@ -11,20 +11,19 @@ import (
 )
 
 type Id struct {
-	offset int         // holds relative address of the identifier
-	token  lexer.Token // holds token
+	token lexer.Token // holds token
 }
 
 func (i Id) exprNode() {}
 
-func NewId(w lexer.Token, t lexer.Type, o int) Id {
+func NewId(w lexer.Token) Id {
 	return Id{
-		offset: o,
+		token: w,
 	}
 }
 
-func (i Id) TokenLiteral() lexer.Tag {
-	return i.token.Tag()
+func (i Id) Token() lexer.Token {
+	return i.token
 }
 
 func (i Id) Gen() string {

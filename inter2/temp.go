@@ -15,29 +15,29 @@ var (
 
 type Temp struct {
 	number int
-	typ    lexer.Type
+	value  string
 }
 
-func NewTemp(t lexer.Type) *Temp {
+func NewTemp(s string) Temp {
 	// increase global count
 	count++
 
-	return &Temp{
+	return Temp{
 		number: count,
-		typ:    t,
+		value:  s,
 	}
 }
 
-func (t *Temp) exprNode() {}
+func (t Temp) exprNode() {}
 
-func (t *Temp) TokenLiteral() string {
+func (t Temp) Token() lexer.Token {
+	return lexer.Temp
+}
+
+func (t Temp) Gen() string {
 	return t.toString()
 }
 
-func (t *Temp) Gen() string {
-	return t.toString()
-}
-
-func (t *Temp) toString() string {
-	return fmt.Sprintf("t%d", t.number)
+func (t Temp) toString() string {
+	return fmt.Sprintf("t%d = %s", t.number, t.value)
 }

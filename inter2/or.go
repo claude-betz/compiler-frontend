@@ -18,6 +18,10 @@ func NewOr(token lexer.Token, expr1 Expr, expr2 Expr) Or {
 
 func (o Or) exprNode() {}
 
-func (a Or) Gen() {
+func (o Or) Token() lexer.Token {
+	return o.token
+}
+
+func (a Or) Gen() string {
 
 }

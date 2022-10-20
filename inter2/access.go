@@ -7,8 +7,8 @@ type Access struct {
 	expr Expr
 }
 
-func NewAccess(id, expr Expr) *Access {
-	return &Access{
+func NewAccess(id, expr Expr) Access {
+	return Access{
 		id:   id,
 		expr: expr,
 	}
@@ -16,10 +16,10 @@ func NewAccess(id, expr Expr) *Access {
 
 func (a Access) exprNode() {}
 
-func (a Access) TokenLiteral() lexer.Token {
+func (a Access) Token() lexer.Token {
 	return lexer.Access
 }
 
-func (a Access) Gen() {
+func (a Access) Gen() string {
 
 }
