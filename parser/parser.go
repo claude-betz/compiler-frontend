@@ -102,7 +102,7 @@ func (p *Parser) stmt() {
 		p.stmt()
 		return
 	case (lexer.WHILE):
-	case (lexer.CHAR):
+	case (lexer.CHARACTER):
 		if p.lookahead.Value() == "{" {
 			p.block()
 		}

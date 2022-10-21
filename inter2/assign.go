@@ -2,6 +2,7 @@ package inter2
 
 import (
 	"compiler-frontend/lexer"
+	"fmt"
 )
 
 type Assign struct {
@@ -23,5 +24,7 @@ func (a Assign) Token() lexer.Token {
 }
 
 func (a Assign) Gen() string {
+	rVal := RValue(a.expr)
 
+	return fmt.Sprintf("%s", rVal.Gen())
 }

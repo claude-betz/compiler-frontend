@@ -13,34 +13,57 @@ import (
 // convenience
 var (
 	// expressions
-	// assign
-	assign = NewWord(ASSIGN, ASSIGN.String())
+	// Assign
+	Assign = NewWord(ASSIGN, ASSIGN.String())
+
+	// access
+	Access = NewWord(ACCESS, ACCESS.String())
 
 	// boolean ops
-	or  = NewWord(OR, OR.String())
-	and = NewWord(AND, AND.String())
+	or      = NewWord(OR, OR.String())
+	and     = NewWord(AND, AND.String())
+	BoolMap = map[string]bool{or.String(): true, and.String(): true}
 
 	// equality
-	eq = NewWord(EQUAL_TO, EQUAL_TO.String())
-	ne = NewWord(NOT_EQUAL_TO, NOT_EQUAL_TO.String())
+	eq                    = NewWord(EQUAL_TO, EQUAL_TO.String())
+	ne                    = NewWord(NOT_EQUAL_TO, NOT_EQUAL_TO.String())
+	EqMap map[string]bool = map[string]bool{
+		eq.String(): true,
+		ne.String(): true,
+	}
 
 	// relational
-	lt = NewWord(LESS_THAN, LESS_THAN.String())
-	le = NewWord(LESS_THAN_EQUAL_TO, LESS_THAN_EQUAL_TO.String())
-	gt = NewWord(GREATER_THAN, GREATER_THAN.String())
-	ge = NewWord(GREATER_THAN_EQUAL_TO, GREATER_THAN_EQUAL_TO.String())
+	lt                     = NewWord(LESS_THAN, LESS_THAN.String())
+	le                     = NewWord(LESS_THAN_EQUAL_TO, LESS_THAN_EQUAL_TO.String())
+	gt                     = NewWord(GREATER_THAN, GREATER_THAN.String())
+	ge                     = NewWord(GREATER_THAN_EQUAL_TO, GREATER_THAN_EQUAL_TO.String())
+	RelMap map[string]bool = map[string]bool{
+		lt.String(): true,
+		le.String(): true,
+		gt.String(): true,
+		ge.String(): true,
+	}
 
 	// expr
-	add  = NewWord(ADD, ADD.String())
-	diff = NewWord(SUBTRACT, ADD.String())
+	add = NewWord(ADD, ADD.String())
+	dif = NewWord(SUBTRACT, ADD.String())
 
 	// terms
-	mul = NewWord(MULTIPLY, MULTIPLY.String())
-	div = NewWord(DIVIDE, DIVIDE.String())
+	mul                   = NewWord(MULTIPLY, MULTIPLY.String())
+	div                   = NewWord(DIVIDE, DIVIDE.String())
+	OpMap map[string]bool = map[string]bool{
+		add.String(): true,
+		dif.String(): true,
+		mul.String(): true,
+		div.String(): true,
+	}
 
 	// unary
 	not   = NewWord(NOT, NOT.String())
 	minus = NewWord(MINUS, MINUS.String())
+
+	// temp
+	Temp = NewWord(TEMP, TEMP.String())
 )
 
 // Token interface to be implemented by different types of tokens

@@ -1,6 +1,9 @@
 package inter2
 
-import "compiler-frontend/lexer"
+import (
+	"compiler-frontend/lexer"
+	"fmt"
+)
 
 type Or struct {
 	token lexer.Token
@@ -22,6 +25,9 @@ func (o Or) Token() lexer.Token {
 	return o.token
 }
 
-func (a Or) Gen() string {
+func (o Or) Gen() string {
+	rVal1 := RValue(o.expr1)
+	rVal2 := RValue(o.expr2)
 
+	return fmt.Sprintf("%s or %s", rVal1.Gen(), rVal2.Gen())
 }

@@ -227,7 +227,7 @@ func (l *Lexer) readOperators() Token {
 			l.advancePeek()
 			return eq
 		} else {
-			return assign
+			return Assign
 		}
 	case '!':
 		l.advancePeek()
@@ -258,7 +258,7 @@ func (l *Lexer) readOperators() Token {
 		return add
 	case '-':
 		l.advancePeek()
-		return diff
+		return dif
 	case '*':
 		l.advancePeek()
 		return mul

@@ -1,6 +1,9 @@
 package inter2
 
-import "compiler-frontend/lexer"
+import (
+	"compiler-frontend/lexer"
+	"fmt"
+)
 
 type And struct {
 	token lexer.Token
@@ -23,5 +26,8 @@ func (a And) Token() lexer.Token {
 }
 
 func (a And) Gen() string {
+	rVal1 := RValue(a.expr1)
+	rVal2 := RValue(a.expr2)
 
+	return fmt.Sprintf("%s and %s", rVal1.Gen(), rVal2.Gen())
 }

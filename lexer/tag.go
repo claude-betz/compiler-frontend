@@ -28,6 +28,9 @@ const (
 	// assignment
 	ASSIGN
 
+	// access
+	ACCESS
+
 	// boolean ops
 	OR
 	AND
@@ -64,6 +67,9 @@ const (
 
 	// character
 	CHARACTER
+
+	// temp
+	TEMP
 )
 
 func (t Tag) String() string {
@@ -86,6 +92,8 @@ func (t Tag) String() string {
 		return "break"
 	case ASSIGN:
 		return "="
+	case ACCESS:
+		return "access"
 	case OR:
 		return "||"
 	case AND:
@@ -118,6 +126,8 @@ func (t Tag) String() string {
 		return "primitive"
 	case CHARACTER:
 		return "character"
+	case TEMP:
+		return "temp"
 	}
 
 	return "undefined"
