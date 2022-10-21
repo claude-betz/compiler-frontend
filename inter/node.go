@@ -1,12 +1,7 @@
-/*
-	node.go
-
-	interface for
-*/
-
-package inter
+package inter2
 
 import (
+	"compiler-frontend/lexer"
 	"fmt"
 )
 
@@ -15,23 +10,98 @@ var (
 )
 
 type Node interface {
-	// returns term that can fit the right side of three-address instruction
-	gen() Expr
+	Token() lexer.Token // token
+	Gen() string        // generate three address code
 }
 
-func newLabel() int {
+type Expr interface {
+	Node
+	exprNode()
+}
+
+type Stmt interface {
+	Node
+	stmtNode()
+}
+
+func NewLabel() int {
+	// increment global labels
 	labels++
+
 	return labels
 }
 
-func emitLabel(i int) {
+func EmitLabel(i int) {
 	fmt.Printf("L%d:", i)
 }
 
-func emit(s string) {
-	fmt.Printf("\t%s\n", s)
+func Emit(s string) string {
+	return fmt.Sprintf("\t%s\n", s)
 }
 
 func printError(s string, line int) {
 	fmt.Printf("[ERROR] near line: %d: %s\n", line, s)
+}
+
+func LValue(expr Expr) Expr {
+	tag := expr.Token().Tag()
+	if tag == lexer.ID {
+		return expr
+	} else if tag == lexer.ACCESS {
+		access := expr.(Access)
+		return NewAccess(access.id, RValue(access.expr))
+	} else {
+		// error
+		return nil
+	}
+}
+
+func RValue(expr Expr) Expr {
+	tag := expr.Token().Tag()
+	if tag == lexer.ID || tag == lexer.NUM {
+		return expr
+	} else if lexer.BoolMap[tag.String()] == true {
+		switch tag.String() {
+		case lexer.OR.String():
+			or := expr.(Or)
+
+			t := NewTemp()
+
+			s := or.Gen()
+
+			fmt.Printf("%s\t%s\n", t.toString(), s)
+
+			return t
+		case lexer.AND.String():
+			and := expr.(And)
+
+			t := NewTemp()
+
+			s := and.Gen()
+
+			fmt.Printf("%s\t%s\n", t.toString(), s)
+
+			return t
+		}
+	} else if tag == lexer.ACCESS {
+		access := expr.(Access)
+
+		t := NewTemp()
+
+		s := access.Gen()
+
+		fmt.Printf("%s\t=%s", t.toString(), s)
+
+		return t
+	} else if tag == lexer.ASSIGN {
+		assign := expr.(Assign)
+
+		lVal := LValue(assign)
+		s := assign.Gen()
+
+		fmt.Printf("%s\t=%s", lVal.Token().Value(), s)
+
+		return lVal
+	}
+	return nil
 }

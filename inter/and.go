@@ -1,35 +1,33 @@
-/*
-	and.go
-
-	generates jumping code for expression E = E1 && E2
-*/
-
 package inter
 
-import "compiler-frontend/lexer"
+import (
+	"compiler-frontend/lexer"
+	"fmt"
+)
 
 type And struct {
-	Logical
+	token lexer.Token
+	expr1 Expr
+	expr2 Expr
 }
 
-func NewAnd(tok lexer.Token, expr1, expr2 Expr) And {
+func NewAnd(token lexer.Token, expr1, expr2 Expr) And {
 	return And{
-		Logical: NewLogical(tok, expr1, expr2),
+		token: token,
+		expr1: expr1,
+		expr2: expr2,
 	}
 }
 
-func (a And) jumping(trueLabel, falseLabel int) {
-	label := 0
-	if falseLabel != 0 {
-		label = falseLabel
-	} else {
-		label = newLabel()
-	}
+func (a And) exprNode() {}
 
-	a.expr1.jumping(0, label)
-	a.expr2.jumping(trueLabel, falseLabel)
+func (a And) Token() lexer.Token {
+	return a.token
+}
 
-	if falseLabel == 0 {
-		emitLabel(label)
-	}
+func (a And) Gen() string {
+	rVal1 := RValue(a.expr1)
+	rVal2 := RValue(a.expr2)
+
+	return fmt.Sprintf("%s and %s", rVal1.Gen(), rVal2.Gen())
 }

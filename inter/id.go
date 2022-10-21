@@ -11,13 +11,21 @@ import (
 )
 
 type Id struct {
-	offset int // holds relative address of the identifier
-	Expr       // inherit default implementations of gen() and reduce()
+	token lexer.Token // holds token
 }
 
-func NewId(w lexer.Token, t lexer.Type, o int) Id {
+func (i Id) exprNode() {}
+
+func NewId(w lexer.Token) Id {
 	return Id{
-		offset: o,
-		Expr:   NewExpr(w, t),
+		token: w,
 	}
+}
+
+func (i Id) Token() lexer.Token {
+	return i.token
+}
+
+func (i Id) Gen() string {
+	return i.token.Value()
 }

@@ -1,35 +1,33 @@
-/*
-	or.go
-
-	generates jumping code for expression E = E1 || E2
-*/
-
 package inter
 
-import "compiler-frontend/lexer"
+import (
+	"compiler-frontend/lexer"
+	"fmt"
+)
 
 type Or struct {
-	Logical
+	token lexer.Token
+	expr1 Expr
+	expr2 Expr
 }
 
-func NewOr(tok lexer.Token, expr1, expr2 Expr) Or {
+func NewOr(token lexer.Token, expr1 Expr, expr2 Expr) Or {
 	return Or{
-		Logical: NewLogical(tok, expr1, expr2),
+		token: token,
+		expr1: expr1,
+		expr2: expr2,
 	}
 }
 
-func (o Or) jumping(trueLabel, falseLabel int) {
-	label := 0
-	if trueLabel != 0 {
-		label = 0
-	} else {
-		label = newLabel()
-	}
+func (o Or) exprNode() {}
 
-	o.expr1.jumping(label, 0)
-	o.expr2.jumping(trueLabel, falseLabel)
+func (o Or) Token() lexer.Token {
+	return o.token
+}
 
-	if trueLabel == 0 {
-		emitLabel(label)
-	}
+func (o Or) Gen() string {
+	rVal1 := RValue(o.expr1)
+	rVal2 := RValue(o.expr2)
+
+	return fmt.Sprintf("%s or %s", rVal1.Gen(), rVal2.Gen())
 }
