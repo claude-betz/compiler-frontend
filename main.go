@@ -15,14 +15,14 @@ import (
 )
 
 const (
-	program = "{ a = 5 || b && c == d }"
+	program = "{ a = b || c && d == c == d }"
 )
 
 func main() {
 	buf := bytes.NewBufferString(program)
 	reader := bufio.NewReader(buf)
 
-	// Lexical Analyser
+	// Lexical Analys
 	lex, err := lexer.NewLexer(reader)
 	if err != nil {
 		fmt.Println("error initialising lexer")
@@ -33,6 +33,7 @@ func main() {
 	// 	fmt.Printf("tag: %s, value: %s\n", token.Tag().String(), token.Value())
 	// }
 
+	// Parsing
 	parser := parser.NewParser(lex)
 	parser.Program()
 }

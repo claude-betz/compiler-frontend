@@ -173,13 +173,15 @@ func (p *Parser) bool() inter.Expr {
 	expr1 := p.join()
 
 	for {
-		if p.lookahead.Tag() == lexer.OR { // match "||"
-			p.matchTokenTag(lexer.OR)
-			expr2 := p.join()
-
-			expr1 = inter.NewOr(lexer.Or, expr1, expr2)
+		if p.lookahead.Tag() != lexer.OR {
+			break
 		}
-		break
+
+		// match "||"
+		p.matchTokenTag(lexer.OR)
+		expr2 := p.join()
+
+		expr1 = inter.NewOr(lexer.Or, expr1, expr2)
 	}
 
 	// return expr
@@ -190,13 +192,16 @@ func (p *Parser) join() inter.Expr {
 	expr1 := p.equality()
 
 	for {
-		if p.lookahead.Tag() == lexer.AND { // match "&&"
-			p.matchTokenTag(lexer.AND)
-			expr2 := p.equality()
-
-			expr1 = inter.NewAnd(lexer.And, expr1, expr2)
+		if p.lookahead.Tag() != lexer.AND {
+			break
 		}
-		break
+
+		// matches "&&"
+
+		p.matchTokenTag(lexer.AND)
+		expr2 := p.equality()
+
+		expr1 = inter.NewAnd(lexer.And, expr1, expr2)
 	}
 
 	// return expr1
@@ -208,18 +213,17 @@ func (p *Parser) equality() inter.Expr {
 	expr1 := p.factor()
 
 	for {
-		lookahead := p.lookahead
-
-		// match "==" and "!="
-		if lexer.EqMap[lookahead.Tag().String()] == true {
-			token := p.matchTokenTag(lookahead.Tag())
-			// should be rel
-			expr2 := p.factor()
-
-			expr1 = inter.NewEquality(token.Token(), expr1, expr2)
+		if lexer.EqMap[p.lookahead.Tag().String()] == false {
+			break
 		}
 
-		break
+		// matches "==" or "!="
+
+		token := p.matchTokenTag(p.lookahead.Tag())
+		// should be rel
+		expr2 := p.factor()
+
+		expr1 = inter.NewEquality(token.Token(), expr1, expr2)
 	}
 
 	return expr1
