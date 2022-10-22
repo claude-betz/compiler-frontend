@@ -2,7 +2,7 @@
 	env.go
 */
 
-package symbols
+package symbol
 
 import "compiler-frontend/lexer"
 

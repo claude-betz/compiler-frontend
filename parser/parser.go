@@ -8,12 +8,14 @@ package parser
 
 import (
 	"compiler-frontend/lexer"
+	"compiler-frontend/symbol"
 	"fmt"
 )
 
 type Parser struct {
 	lexer     *lexer.Lexer
 	lookahead lexer.Token
+	top       *symbol.Env
 }
 
 func NewParser(lexer *lexer.Lexer) *Parser {
@@ -22,6 +24,7 @@ func NewParser(lexer *lexer.Lexer) *Parser {
 	return &Parser{
 		lexer:     lexer,
 		lookahead: lookahead,
+		top:       symbol.NewEnv(nil),
 	}
 }
 
@@ -58,9 +61,19 @@ func (p *Parser) Program() {
 
 func (p *Parser) block() {
 	p.matchCharacter("{")
+
+	// save symbol table from previous scope
+	s := p.top
+
+	// new symbol table for new scope
+	p.top = symbol.NewEnv(s)
+
 	p.decls()
 	p.stmts()
 	p.matchCharacter("}")
+
+	// assign saved symbol table
+	p.top = s
 }
 
 func (p *Parser) decls() {
@@ -80,7 +93,6 @@ func (p *Parser) decl() {
 
 func (p *Parser) stmts() {
 	if p.lookahead.Value() == "}" {
-
 		return
 	}
 	p.stmt()
