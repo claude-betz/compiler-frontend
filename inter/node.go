@@ -66,9 +66,7 @@ func RValue(expr Expr) Expr {
 			or := expr.(Or)
 
 			t := NewTemp()
-
 			s := or.Gen()
-
 			fmt.Printf("%s\t= %s\n", t.toString(), s)
 
 			return t
@@ -76,23 +74,27 @@ func RValue(expr Expr) Expr {
 			and := expr.(And)
 
 			t := NewTemp()
-
 			s := and.Gen()
-
 			fmt.Printf("%s\t= %s\n", t.toString(), s)
 
 			return t
 		}
 	} else if lexer.EqMap[tag.String()] == true {
 		equality := expr.(Equality)
+
 		t := NewTemp()
-
 		s := equality.Gen()
-
 		fmt.Printf("%s\t= %s\n", t.toString(), s)
 
 		return t
+	} else if lexer.RelMap[tag.String()] == true {
+		relation := expr.(Rel)
 
+		t := NewTemp()
+		s := relation.Gen()
+		fmt.Printf("%s\t= %s\n", t.toString(), s)
+
+		return t
 	} else if tag == lexer.ACCESS {
 		access := expr.(Access)
 
