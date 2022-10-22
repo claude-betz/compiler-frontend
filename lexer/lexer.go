@@ -216,7 +216,7 @@ func (l *Lexer) readOperators() Token {
 		l.advancePeek()
 		if l.peek == '&' {
 			l.advancePeek()
-			return and
+			return And
 		} else {
 			// not supported
 			return nil

@@ -170,14 +170,12 @@ func (p *Parser) restLoc() inter.Expr {
 }
 
 func (p *Parser) bool() inter.Expr {
-	//p.join()
-	expr1 := p.factor()
+	expr1 := p.join()
 
 	for {
 		if p.lookahead.Tag() == lexer.OR { // match "||"
 			p.matchTokenTag(lexer.OR)
-			//p.join()
-			expr2 := p.factor()
+			expr2 := p.join()
 
 			expr1 = inter.NewOr(lexer.Or, expr1, expr2)
 		}
@@ -188,18 +186,23 @@ func (p *Parser) bool() inter.Expr {
 	return expr1
 }
 
-func (p *Parser) join() {
-	p.equality()
-	p.restJoin()
-}
+func (p *Parser) join() inter.Expr {
+	// should be equality
+	expr1 := p.factor()
 
-func (p *Parser) restJoin() {
-	lookaheadTag := p.lookahead.Tag()
-	if lookaheadTag == lexer.AND { // match "&&"
-		p.matchTokenTag(lexer.AND)
-		p.equality()
-		p.restJoin()
+	for {
+		if p.lookahead.Tag() == lexer.AND { // match "&&"
+			p.matchTokenTag(lexer.AND)
+			// should be equality
+			expr2 := p.factor()
+
+			expr1 = inter.NewAnd(lexer.And, expr1, expr2)
+		}
+		break
 	}
+
+	// return expr1
+	return expr1
 }
 
 func (p *Parser) equality() {

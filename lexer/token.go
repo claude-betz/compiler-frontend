@@ -21,7 +21,7 @@ var (
 
 	// boolean ops
 	Or      = NewWord(OR, OR.String())
-	and     = NewWord(AND, AND.String())
+	And     = NewWord(AND, AND.String())
 	BoolMap = map[string]bool{
 		OR.String():  true,
 		AND.String(): true}
