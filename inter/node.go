@@ -49,7 +49,7 @@ func LValue(expr Expr) Expr {
 		return expr
 	} else if tag == lexer.ACCESS {
 		access := expr.(Access)
-		return NewAccess(access.id, RValue(access.expr))
+		return NewAccess(access.id, access.expr)
 	} else {
 		// error
 		return nil
@@ -102,7 +102,7 @@ func RValue(expr Expr) Expr {
 
 		s := access.Gen()
 
-		fmt.Printf("%s\t=%s", t.toString(), s)
+		fmt.Printf("%s\t= %s\n", t.toString(), s)
 
 		return t
 	} else if tag == lexer.ASSIGN {

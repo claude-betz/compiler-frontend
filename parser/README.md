@@ -64,5 +64,6 @@ unary    -> ! unary
 
 factor   -> ( expr )
          |  num
+         |  loc
          |  id
 ```

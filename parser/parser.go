@@ -291,16 +291,32 @@ func (p *Parser) factor() inter.Expr {
 	l := p.lookahead
 
 	// ( expr)
-	if l.Tag().String() == "(" {
+	if l.String() == "(" {
 		p.matchCharacter("(")
 		p.expr()
 		p.matchCharacter(")")
 	}
 
-	// id or num
-	if l.Tag() == lexer.NUM || l.Tag() == lexer.ID {
-		p.matchTokenTag(l.Tag())
+	// num
+	if l.Tag() == lexer.NUM {
+		p.matchTokenTag(lexer.NUM)
 		return inter.NewId(l)
+	}
+
+	// id
+	if l.Tag() == lexer.ID {
+		id := p.matchTokenTag(lexer.ID)
+
+		// check if access
+		if p.lookahead.Value() == "[" {
+			p.matchCharacter("[")
+			b := p.bool()
+			p.matchCharacter("]")
+			return inter.NewAccess(id.(inter.Id), b)
+		}
+
+		// return id
+		return id
 	}
 
 	return nil
