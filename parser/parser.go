@@ -125,7 +125,7 @@ func (p *Parser) stmt() inter.Stmt {
 	case (lexer.ID):
 		id := p.loc()
 		p.matchCharacter("=")
-		expr := p.factor()
+		expr := p.bool()
 		p.matchCharacter(";")
 		return inter.NewAssign(id, expr)
 	case (lexer.IF):
@@ -160,7 +160,6 @@ func (p *Parser) restLoc() inter.Expr {
 	if p.lookahead.Value() == "[" { // match "["
 		p.matchCharacter("[")
 
-		// use factor for now to test
 		b := p.bool()
 
 		p.matchCharacter("]")
@@ -171,13 +170,11 @@ func (p *Parser) restLoc() inter.Expr {
 }
 
 func (p *Parser) bool() inter.Expr {
-	lookaheadTag := p.lookahead.Tag()
-
 	//p.join()
 	expr1 := p.factor()
 
 	for {
-		if lookaheadTag == lexer.OR { // match "||"
+		if p.lookahead.Tag() == lexer.OR { // match "||"
 			p.matchTokenTag(lexer.OR)
 			//p.join()
 			expr2 := p.factor()
@@ -198,6 +195,8 @@ func (p *Parser) restBool() inter.Expr {
 		p.join()
 		p.restBool()
 	}
+
+	return nil
 }
 
 func (p *Parser) join() {
