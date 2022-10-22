@@ -61,25 +61,25 @@ func RValue(expr Expr) Expr {
 	if tag == lexer.ID || tag == lexer.NUM {
 		return expr
 	} else if lexer.BoolMap[tag.String()] == true {
-		switch tag.String() {
-		case lexer.OR.String():
+		switch tag {
+		case lexer.OR:
 			or := expr.(Or)
 
 			t := NewTemp()
 
 			s := or.Gen()
 
-			fmt.Printf("%s\t%s\n", t.toString(), s)
+			fmt.Printf("%s\t= %s\n", t.toString(), s)
 
 			return t
-		case lexer.AND.String():
+		case lexer.AND:
 			and := expr.(And)
 
 			t := NewTemp()
 
 			s := and.Gen()
 
-			fmt.Printf("%s\t%s\n", t.toString(), s)
+			fmt.Printf("%s\t= %s\n", t.toString(), s)
 
 			return t
 		}

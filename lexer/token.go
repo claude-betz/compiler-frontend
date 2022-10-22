@@ -22,14 +22,16 @@ var (
 	// boolean ops
 	Or      = NewWord(OR, OR.String())
 	and     = NewWord(AND, AND.String())
-	BoolMap = map[string]bool{Or.String(): true, and.String(): true}
+	BoolMap = map[string]bool{
+		OR.String():  true,
+		AND.String(): true}
 
 	// equality
 	eq                    = NewWord(EQUAL_TO, EQUAL_TO.String())
 	ne                    = NewWord(NOT_EQUAL_TO, NOT_EQUAL_TO.String())
 	EqMap map[string]bool = map[string]bool{
-		eq.String(): true,
-		ne.String(): true,
+		EQUAL_TO.String():     true,
+		NOT_EQUAL_TO.String(): true,
 	}
 
 	// relational
@@ -38,10 +40,10 @@ var (
 	gt                     = NewWord(GREATER_THAN, GREATER_THAN.String())
 	ge                     = NewWord(GREATER_THAN_EQUAL_TO, GREATER_THAN_EQUAL_TO.String())
 	RelMap map[string]bool = map[string]bool{
-		lt.String(): true,
-		le.String(): true,
-		gt.String(): true,
-		ge.String(): true,
+		LESS_THAN.String():             true,
+		LESS_THAN_EQUAL_TO.String():    true,
+		GREATER_THAN.String():          true,
+		GREATER_THAN_EQUAL_TO.String(): true,
 	}
 
 	// expr
@@ -52,10 +54,10 @@ var (
 	mul                   = NewWord(MULTIPLY, MULTIPLY.String())
 	div                   = NewWord(DIVIDE, DIVIDE.String())
 	OpMap map[string]bool = map[string]bool{
-		add.String(): true,
-		dif.String(): true,
-		mul.String(): true,
-		div.String(): true,
+		ADD.String():      true,
+		SUBTRACT.String(): true,
+		MULTIPLY.String(): true,
+		DIVIDE.String():   true,
 	}
 
 	// unary

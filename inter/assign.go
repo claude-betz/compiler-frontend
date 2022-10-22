@@ -29,5 +29,5 @@ func (a Assign) Gen() string {
 	lVal := LValue(a.id)
 	rVal := RValue(a.expr)
 
-	return fmt.Sprintf("%s = %s", lVal.Gen(), rVal.Gen())
+	return fmt.Sprintf("%s\t= %s", lVal.Gen(), rVal.Gen())
 }

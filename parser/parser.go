@@ -188,17 +188,6 @@ func (p *Parser) bool() inter.Expr {
 	return expr1
 }
 
-func (p *Parser) restBool() inter.Expr {
-	lookaheadTag := p.lookahead.Tag()
-	if lookaheadTag == lexer.OR { // match "||"
-		p.matchTokenTag(lexer.OR)
-		p.join()
-		p.restBool()
-	}
-
-	return nil
-}
-
 func (p *Parser) join() {
 	p.equality()
 	p.restJoin()
