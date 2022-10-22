@@ -207,7 +207,7 @@ func (l *Lexer) readOperators() Token {
 		l.advancePeek()
 		if l.peek == '|' {
 			l.advancePeek()
-			return or
+			return Or
 		} else {
 			// not supported
 			return nil

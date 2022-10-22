@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	program = "{ a = 5 }"
+	program = "{ a[2] = b }"
 )
 
 func main() {

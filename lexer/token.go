@@ -20,9 +20,9 @@ var (
 	Access = NewWord(ACCESS, ACCESS.String())
 
 	// boolean ops
-	or      = NewWord(OR, OR.String())
+	Or      = NewWord(OR, OR.String())
 	and     = NewWord(AND, AND.String())
-	BoolMap = map[string]bool{or.String(): true, and.String(): true}
+	BoolMap = map[string]bool{Or.String(): true, and.String(): true}
 
 	// equality
 	eq                    = NewWord(EQUAL_TO, EQUAL_TO.String())

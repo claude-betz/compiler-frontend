@@ -161,22 +161,37 @@ func (p *Parser) restLoc() inter.Expr {
 		p.matchCharacter("[")
 
 		// use factor for now to test
-		// b := p.bool()
-		b := p.factor()
+		b := p.bool()
 
 		p.matchCharacter("]")
-		// p.restLoc() // only allow 1D arrays for now
+		p.restLoc() // only allow 1D arrays for now
 		return b
 	}
 	return nil
 }
 
-func (p *Parser) bool() {
-	p.join()
-	p.restBool()
+func (p *Parser) bool() inter.Expr {
+	lookaheadTag := p.lookahead.Tag()
+
+	//p.join()
+	expr1 := p.factor()
+
+	for {
+		if lookaheadTag == lexer.OR { // match "||"
+			p.matchTokenTag(lexer.OR)
+			//p.join()
+			expr2 := p.factor()
+
+			expr1 = inter.NewOr(lexer.Or, expr1, expr2)
+		}
+		break
+	}
+
+	// return expr
+	return expr1
 }
 
-func (p *Parser) restBool() {
+func (p *Parser) restBool() inter.Expr {
 	lookaheadTag := p.lookahead.Tag()
 	if lookaheadTag == lexer.OR { // match "||"
 		p.matchTokenTag(lexer.OR)
