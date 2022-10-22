@@ -83,6 +83,16 @@ func RValue(expr Expr) Expr {
 
 			return t
 		}
+	} else if lexer.EqMap[tag.String()] == true {
+		equality := expr.(Equality)
+		t := NewTemp()
+
+		s := equality.Gen()
+
+		fmt.Printf("%s\t= %s\n", t.toString(), s)
+
+		return t
+
 	} else if tag == lexer.ACCESS {
 		access := expr.(Access)
 

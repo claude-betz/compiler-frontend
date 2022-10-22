@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	program = "{ a = 5 || b && c}"
+	program = "{ a = 5 || b && c == d }"
 )
 
 func main() {

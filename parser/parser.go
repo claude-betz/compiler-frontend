@@ -187,14 +187,12 @@ func (p *Parser) bool() inter.Expr {
 }
 
 func (p *Parser) join() inter.Expr {
-	// should be equality
-	expr1 := p.factor()
+	expr1 := p.equality()
 
 	for {
 		if p.lookahead.Tag() == lexer.AND { // match "&&"
 			p.matchTokenTag(lexer.AND)
-			// should be equality
-			expr2 := p.factor()
+			expr2 := p.equality()
 
 			expr1 = inter.NewAnd(lexer.And, expr1, expr2)
 		}
@@ -205,20 +203,26 @@ func (p *Parser) join() inter.Expr {
 	return expr1
 }
 
-func (p *Parser) equality() {
-	p.rel()
-	p.restEquality()
-}
+func (p *Parser) equality() inter.Expr {
+	// should be rel
+	expr1 := p.factor()
 
-func (p *Parser) restEquality() {
-	lookaheadTag := p.lookahead.Tag()
+	for {
+		lookahead := p.lookahead
 
-	// match "==" or "!="
-	if lookaheadTag == lexer.EQUAL_TO || lookaheadTag == lexer.NOT_EQUAL_TO {
-		p.matchTokenTag(lookaheadTag)
-		p.rel()
-		p.restEquality()
+		// match "==" and "!="
+		if lexer.EqMap[lookahead.Tag().String()] == true {
+			token := p.matchTokenTag(lookahead.Tag())
+			// should be rel
+			expr2 := p.factor()
+
+			expr1 = inter.NewEquality(token.Token(), expr1, expr2)
+		}
+
+		break
 	}
+
+	return expr1
 }
 
 func (p *Parser) rel() {
@@ -283,12 +287,14 @@ func (p *Parser) unary() {
 func (p *Parser) factor() inter.Expr {
 	l := p.lookahead
 
+	// ( expr)
 	if l.Tag().String() == "(" {
 		p.matchCharacter("(")
 		p.expr()
 		p.matchCharacter(")")
 	}
 
+	// id or num
 	if l.Tag() == lexer.NUM || l.Tag() == lexer.ID {
 		p.matchTokenTag(l.Tag())
 		return inter.NewId(l)
