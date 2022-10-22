@@ -47,15 +47,17 @@ var (
 	}
 
 	// expr
-	add = NewWord(ADD, ADD.String())
-	dif = NewWord(SUBTRACT, ADD.String())
-
-	// terms
-	mul                   = NewWord(MULTIPLY, MULTIPLY.String())
-	div                   = NewWord(DIVIDE, DIVIDE.String())
-	OpMap map[string]bool = map[string]bool{
+	add                     = NewWord(ADD, ADD.String())
+	dif                     = NewWord(SUBTRACT, SUBTRACT.String())
+	ExprMap map[string]bool = map[string]bool{
 		ADD.String():      true,
 		SUBTRACT.String(): true,
+	}
+
+	// terms
+	mul                     = NewWord(MULTIPLY, MULTIPLY.String())
+	div                     = NewWord(DIVIDE, DIVIDE.String())
+	TermMap map[string]bool = map[string]bool{
 		MULTIPLY.String(): true,
 		DIVIDE.String():   true,
 	}

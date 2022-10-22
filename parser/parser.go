@@ -209,7 +209,6 @@ func (p *Parser) join() inter.Expr {
 }
 
 func (p *Parser) equality() inter.Expr {
-	// should be rel
 	expr1 := p.rel()
 
 	for {
@@ -220,7 +219,6 @@ func (p *Parser) equality() inter.Expr {
 		// matches "==" or "!="
 
 		token := p.matchTokenTag(p.lookahead.Tag())
-		// should be rel
 		expr2 := p.rel()
 
 		expr1 = inter.NewEquality(token.Token(), expr1, expr2)
@@ -230,16 +228,14 @@ func (p *Parser) equality() inter.Expr {
 }
 
 func (p *Parser) rel() inter.Expr {
-	// should be expr
-	expr1 := p.factor()
+	expr1 := p.expr()
 
 	// relational operator
 	if lexer.RelMap[p.lookahead.Tag().String()] == true {
 		// we know we have a relational operator here
 		token := p.matchTokenTag(p.lookahead.Tag())
 
-		// should be expr
-		expr2 := p.factor()
+		expr2 := p.expr()
 
 		expr1 = inter.NewRel(token.Token(), expr1, expr2)
 	}
@@ -247,19 +243,24 @@ func (p *Parser) rel() inter.Expr {
 	return expr1
 }
 
-func (p *Parser) expr() {
-	p.term()
-	p.restExpr()
-}
+func (p *Parser) expr() inter.Expr {
+	// should be term
+	expr1 := p.factor()
 
-func (p *Parser) restExpr() {
-	lookupTag := p.lookahead.Tag()
+	for {
+		if lexer.ExprMap[p.lookahead.Tag().String()] == false {
+			break
+		}
+		// matches "+" "-"
 
-	if lookupTag.String() == lexer.ADD.String() || lookupTag.String() == lexer.SUBTRACT.String() {
-		p.matchTokenTag(lookupTag)
-		p.term()
-		p.restExpr()
+		token := p.matchTokenTag(p.lookahead.Tag())
+		// should be term
+		expr2 := p.factor()
+
+		expr1 = inter.NewExpression(token.Token(), expr1, expr2)
 	}
+
+	return expr1
 }
 
 func (p *Parser) term() {

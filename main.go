@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	program = "{ a[2] = b[2<1] > c || d  }"
+	program = "{ a[2] = b[1] > 1 - 1 }"
 )
 
 func main() {

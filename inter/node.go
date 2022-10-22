@@ -95,6 +95,14 @@ func RValue(expr Expr) Expr {
 		fmt.Printf("%s\t= %s\n", t.toString(), s)
 
 		return t
+	} else if lexer.ExprMap[tag.String()] == true {
+		expression := expr.(Expression)
+
+		t := NewTemp()
+		s := expression.Gen()
+		fmt.Printf("%s\t= %s\n", t.toString(), s)
+
+		return t
 	} else if tag == lexer.ACCESS {
 		access := expr.(Access)
 
