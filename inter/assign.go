@@ -19,12 +19,15 @@ func NewAssign(id Expr, expr Expr) Assign {
 
 func (a Assign) exprNode() {}
 
+func (a Assign) stmtNode() {}
+
 func (a Assign) Token() lexer.Token {
 	return lexer.Assign
 }
 
 func (a Assign) Gen() string {
+	lVal := LValue(a.id)
 	rVal := RValue(a.expr)
 
-	return fmt.Sprintf("%s", rVal.Gen())
+	return fmt.Sprintf("%s = %s", lVal.Gen(), rVal.Gen())
 }

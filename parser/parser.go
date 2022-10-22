@@ -7,6 +7,7 @@
 package parser
 
 import (
+	"compiler-frontend/inter"
 	"compiler-frontend/lexer"
 	"compiler-frontend/symbol"
 	"fmt"
@@ -42,24 +43,39 @@ func (p *Parser) matchCharacter(r string) {
 	}
 }
 
-func (p *Parser) matchTokenTag(tag lexer.Tag) {
-	if p.lookahead.Tag() == tag { // matched
+func (p *Parser) matchTokenTag(tag lexer.Tag) inter.Expr {
+	lookahead := p.lookahead
+	if lookahead.Tag() == tag { // matched
 		// advance lookahead
-		fmt.Print(p.lookahead.Value() + " ")
+		fmt.Print(lookahead.Value() + " ")
 		p.advanceLookahead()
-		return
+
+		id := inter.NewId(lookahead)
+		return id
 	} else {
 		// error
+		return nil
 	}
 }
 
 func (p *Parser) Program() {
-	p.block()
+	fmt.Println("parsing source...")
 
-	fmt.Println("success!")
+	stmtNode := p.block()
+	blockNode := inter.NewBlock(stmtNode)
+
+	fmt.Println("\nsuccessfully parsed source.")
+
+	// call generate at root
+	fmt.Println("generating target code...")
+
+	gen := blockNode.Gen()
+	fmt.Println(gen)
+
+	fmt.Println("successfully generated target code.")
 }
 
-func (p *Parser) block() {
+func (p *Parser) block() inter.Stmt {
 	p.matchCharacter("{")
 
 	// save symbol table from previous scope
@@ -69,11 +85,14 @@ func (p *Parser) block() {
 	p.top = symbol.NewEnv(s)
 
 	p.decls()
-	p.stmts()
+	stmtsNode := p.stmts()
 	p.matchCharacter("}")
 
 	// assign saved symbol table
 	p.top = s
+
+	// return statement node
+	return stmtsNode
 }
 
 func (p *Parser) decls() {
@@ -91,48 +110,65 @@ func (p *Parser) decl() {
 	}
 }
 
-func (p *Parser) stmts() {
+func (p *Parser) stmts() inter.Stmt {
 	if p.lookahead.Value() == "}" {
-		return
+		return nil
 	}
-	p.stmt()
-	p.stmts()
+	stmt := p.stmt()
+	stmts := p.stmts()
+
+	return inter.NewSeq(stmt, stmts)
 }
 
-func (p *Parser) stmt() {
+func (p *Parser) stmt() inter.Stmt {
 	switch p.lookahead.Tag() {
 	case (lexer.ID):
-		p.loc()
+		id := p.loc()
 		p.matchCharacter("=")
-		p.bool()
+		expr := p.factor()
 		p.matchCharacter(";")
+		return inter.NewAssign(id, expr)
 	case (lexer.IF):
 		p.matchTokenTag(lexer.IF)
 		p.matchCharacter("(")
 		p.bool()
 		p.matchCharacter(")")
 		p.stmt()
-		return
 	case (lexer.WHILE):
 	case (lexer.CHARACTER):
 		if p.lookahead.Value() == "{" {
 			p.block()
 		}
 	}
+	return nil
 }
 
-func (p *Parser) loc() {
-	p.matchTokenTag(lexer.ID) // match ID
-	p.restLoc()
+func (p *Parser) loc() inter.Expr {
+	id := p.matchTokenTag(lexer.ID) // match ID
+	b := p.restLoc()
+
+	// if access return new access
+	if b != nil {
+		return inter.NewAccess(id.(inter.Id), b)
+	}
+
+	// return id
+	return id
 }
 
-func (p *Parser) restLoc() {
+func (p *Parser) restLoc() inter.Expr {
 	if p.lookahead.Value() == "[" { // match "["
 		p.matchCharacter("[")
-		p.bool()
+
+		// use factor for now to test
+		// b := p.bool()
+		b := p.factor()
+
 		p.matchCharacter("]")
-		p.restLoc()
+		// p.restLoc() // only allow 1D arrays for now
+		return b
 	}
+	return nil
 }
 
 func (p *Parser) bool() {
@@ -238,18 +274,19 @@ func (p *Parser) unary() {
 	}
 }
 
-func (p *Parser) factor() {
+func (p *Parser) factor() inter.Expr {
 	l := p.lookahead
 
 	if l.Tag().String() == "(" {
 		p.matchCharacter("(")
 		p.expr()
 		p.matchCharacter(")")
-		return
 	}
 
 	if l.Tag() == lexer.NUM || l.Tag() == lexer.ID {
 		p.matchTokenTag(l.Tag())
-		return
+		return inter.NewId(l)
 	}
+
+	return nil
 }

@@ -1,4 +1,4 @@
-package inter2
+package inter
 
 import (
 	"compiler-frontend/lexer"
@@ -96,12 +96,11 @@ func RValue(expr Expr) Expr {
 	} else if tag == lexer.ASSIGN {
 		assign := expr.(Assign)
 
-		lVal := LValue(assign)
 		s := assign.Gen()
 
-		fmt.Printf("%s\t=%s", lVal.Token().Value(), s)
+		fmt.Printf("%s\n", s)
 
-		return lVal
+		return RValue(assign.expr)
 	}
 	return nil
 }

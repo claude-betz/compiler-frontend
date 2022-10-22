@@ -14,13 +14,13 @@ type Id struct {
 	token lexer.Token // holds token
 }
 
-func (i Id) exprNode() {}
-
 func NewId(w lexer.Token) Id {
 	return Id{
 		token: w,
 	}
 }
+
+func (i Id) exprNode() {}
 
 func (i Id) Token() lexer.Token {
 	return i.token
