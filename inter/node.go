@@ -31,8 +31,8 @@ func NewLabel() int {
 	return labels
 }
 
-func EmitLabel(i int) {
-	fmt.Printf("L%d:", i)
+func EmitLabel(i int) string {
+	return fmt.Sprintf("L%d:", i)
 }
 
 func Emit(s string) string {
