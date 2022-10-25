@@ -137,6 +137,13 @@ func (p *Parser) stmt() inter.Stmt {
 		p.matchCharacter(";")
 		return inter.NewIf(expr, stmt)
 	case (lexer.WHILE):
+		p.matchTokenTag(lexer.WHILE)
+		p.matchCharacter("(")
+		expr := p.bool()
+		p.matchCharacter(")")
+		stmt := p.stmt()
+		p.matchCharacter(";")
+		return inter.NewWhile(expr, stmt)
 	case (lexer.CHARACTER):
 		if p.lookahead.Value() == "{" {
 			p.block()
