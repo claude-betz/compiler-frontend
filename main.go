@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	program = "{ if (a + b > 2) a = b + 2 }"
+	program = "{ if (a + b > 2) a = b[2] + 2; if (2 + 5 > b) b = a + 2; }"
 )
 
 func main() {

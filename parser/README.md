@@ -19,9 +19,9 @@ stmts    -> stmt stmts
          |  ϵ
 
 stmt     -> loc = bool;
-         |  if ( bool ) stmt
+         |  if ( bool ) stmt;
          |  if ( bool ) stmt else stmt **
-         |  while ( bool ) stmt
+         |  while ( bool ) stmt;
          |  do stmt while ( bool ) ;
          |  block
 

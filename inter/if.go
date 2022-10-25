@@ -30,6 +30,6 @@ func (i If) Gen() string {
 	fmt.Printf("ifFalse %s goto %s\n", expr.Gen(), after)
 	stmt := i.stmt.Gen()
 	fmt.Printf("%s\n", stmt)
-	fmt.Printf("%s", after)
+	fmt.Printf("%s\n", after)
 	return ""
 }

@@ -134,6 +134,7 @@ func (p *Parser) stmt() inter.Stmt {
 		expr := p.bool()
 		p.matchCharacter(")")
 		stmt := p.stmt()
+		p.matchCharacter(";")
 		return inter.NewIf(expr, stmt)
 	case (lexer.WHILE):
 	case (lexer.CHARACTER):
