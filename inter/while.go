@@ -26,15 +26,15 @@ func (w While) Token() lexer.Token {
 func (w While) Gen() string {
 	l := NewLabel()
 	before := EmitLabel(l)
-	fmt.Printf("%s\n", before)
+	fmt.Printf("%s:", before)
 
 	l2 := NewLabel()
 	after := EmitLabel(l2)
 	expr := w.expr.Gen()
-	fmt.Printf("IfFalse %s goto %s\n", expr, after)
+	fmt.Printf("\tIfFalse %s goto %s\n", expr, after)
 	stmt := w.stmt.Gen()
-	fmt.Printf("%s\n", stmt)
-	fmt.Printf("goto: %s\n", before)
-	fmt.Printf("%s\n", after)
+	fmt.Printf("\t%s\n", stmt)
+	fmt.Printf("\tgoto %s\n", before)
+	fmt.Printf("%s:", after)
 	return ""
 }

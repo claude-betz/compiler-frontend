@@ -27,9 +27,9 @@ func (i If) Gen() string {
 	l := NewLabel()
 	after := EmitLabel(l)
 	expr := RValue(i.expr)
-	fmt.Printf("ifFalse %s goto %s\n", expr.Gen(), after)
+	fmt.Printf("\tifFalse %s goto %s\n", expr.Gen(), after)
 	stmt := i.stmt.Gen()
-	fmt.Printf("%s\n", stmt)
-	fmt.Printf("%s\n", after)
+	fmt.Printf("\t%s\n", stmt)
+	fmt.Printf("%s:", after)
 	return ""
 }

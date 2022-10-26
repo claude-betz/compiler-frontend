@@ -32,7 +32,7 @@ func NewLabel() int {
 }
 
 func EmitLabel(i int) string {
-	return fmt.Sprintf("L%d:", i)
+	return fmt.Sprintf("L%d", i)
 }
 
 func Emit(s string) string {
@@ -67,7 +67,7 @@ func RValue(expr Expr) Expr {
 
 			t := NewTemp()
 			s := or.Gen()
-			fmt.Printf("%s\t= %s\n", t.toString(), s)
+			fmt.Printf("\t%s = %s\n", t.toString(), s)
 
 			return t
 		case lexer.AND:
@@ -75,7 +75,7 @@ func RValue(expr Expr) Expr {
 
 			t := NewTemp()
 			s := and.Gen()
-			fmt.Printf("%s\t= %s\n", t.toString(), s)
+			fmt.Printf("\t%s = %s\n", t.toString(), s)
 
 			return t
 		}
@@ -84,7 +84,7 @@ func RValue(expr Expr) Expr {
 
 		t := NewTemp()
 		s := equality.Gen()
-		fmt.Printf("%s\t= %s\n", t.toString(), s)
+		fmt.Printf("\t%s = %s\n", t.toString(), s)
 
 		return t
 	} else if lexer.RelMap[tag.String()] == true {
@@ -92,7 +92,7 @@ func RValue(expr Expr) Expr {
 
 		t := NewTemp()
 		s := relation.Gen()
-		fmt.Printf("%s\t= %s\n", t.toString(), s)
+		fmt.Printf("\t%s = %s\n", t.toString(), s)
 
 		return t
 	} else if lexer.ExprMap[tag.String()] == true {
@@ -100,26 +100,22 @@ func RValue(expr Expr) Expr {
 
 		t := NewTemp()
 		s := expression.Gen()
-		fmt.Printf("%s\t= %s\n", t.toString(), s)
+		fmt.Printf("\t%s = %s\n", t.toString(), s)
 
 		return t
 	} else if tag == lexer.ACCESS {
 		access := expr.(Access)
 
 		t := NewTemp()
-
 		s := access.Gen()
-
-		fmt.Printf("%s\t= %s\n", t.toString(), s)
+		fmt.Printf("\t%s = %s\n", t.toString(), s)
 
 		return t
 	} else if tag == lexer.ASSIGN {
 		assign := expr.(Assign)
 
 		s := assign.Gen()
-
 		fmt.Printf("%s\n", s)
-
 		return RValue(assign.expr)
 	}
 	return nil
